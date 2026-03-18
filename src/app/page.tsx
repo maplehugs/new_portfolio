@@ -208,7 +208,7 @@ export default function Home() {
           <div
               className="absolute top-0 left-0 right-0 h-screen pointer-events-none"
               style={{
-                backgroundImage: "url('/top_page.png')",
+                backgroundImage: "url('/top_page.webp')",
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'top center',
                 backgroundSize: 'cover',
@@ -571,7 +571,7 @@ function MemoriesAlbum() {
               <div className="polaroid-dark -rotate-1">
                 <div className="photo-vignette">
                   <div className="photo-vignette">
-                    <img src="/server.png" alt="First Server" className="w-full h-full object-cover" />
+                    <img src="/server.webp" alt="First Server" className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
@@ -583,7 +583,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark rotate-2">
                 <div className="photo-vignette">
-                  <img src="/3am.png" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/3am.webp" alt="First Server" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text md:text-right">
@@ -597,7 +597,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark rotate-1">
                 <div className="photo-vignette">
-                  <img src="/ticket.png" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/ticket.webp" alt="First Server" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text">
@@ -608,7 +608,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark -rotate-2">
                 <div className="photo-vignette">
-                  <img src="/ice.png" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/ice.webp" alt="First Server" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text md:text-right">
@@ -622,7 +622,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col items-center justify-center text-center relative z-10 px-4">
               <div className="polaroid-dark rotate-0 mb-8">
                 <div className="photo-vignette bg-gradient-to-br from-purple-900 to-black flex items-center justify-center">
-                  <img src="/oña.png" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/oña.webp" alt="First Server" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text">

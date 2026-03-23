@@ -299,7 +299,7 @@ export default function Home() {
           <section className="min-h-screen flex flex-row items-center justify-center p-8 relative z-10" id="white-space">
             <div className="text-center">
               {/* Greeting */}
-              <h1 className="handwritten-bold text-5xl md:text-7xl mb-4">Welcome to my space.</h1>
+              <h1 className="marker text-6xl md:text-8xl mb-4 font-extrabold">Welcome to my space.</h1>
               <p className="handwritten text-2xl  italic mb-2">I'm Juan (maple)</p>
               <p className="text-omori ">Software Engineer · 7th Semester</p>
               <p className="handwritten text-lg mt-4">I have been living here for as long as i can remember.</p>

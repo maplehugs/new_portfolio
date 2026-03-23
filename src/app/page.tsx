@@ -18,190 +18,268 @@ interface GitHubRepo {
 export default function Home() {
   return (
       <>
+        <title>almost white space</title>
         <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Permanent+Marker&family=Gaegu:wght@400;700&display=swap');
-        
-        body {
-          font-family: 'VT323', monospace;
-          scroll-behavior: smooth;
-          margin: 0;
-          padding: 0;
-        }
-        
-        .handwritten {
-          font-family: 'Gaegu', cursive;
-          font-weight: 400;
-        }
-        
-        .handwritten-bold {
-          font-family: 'Gaegu', cursive;
-          font-weight: 700;
-        }
-        
-        .marker {
-          font-family: 'Permanent Marker', cursive;
-        }
-        
-        h1, h2, h3 {
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-        }
-        
-        .text-omori {
-          font-size: 1.5rem;
-          line-height: 1.2;
-        }
-        
-        .sketch-border {
-          border: 2px solid currentColor;
-          border-radius: 2px;
-          box-shadow: 2px 2px 0 0 currentColor;
-        }
-        
-        .project-card {
-          transition: all 0.2s ease;
-        }
-        
-        .project-card:hover {
-          transform: translate(-2px, -2px);
-          box-shadow: 6px 6px 0 0 currentColor;
-          cursor: pointer;
-        }
-        
-        .album-container-dark {
-          background-color: #0c0c0c;
-          border: 4px solid #1a1a1a;
-          position: relative;
-          padding: 3rem 1.5rem;
-          box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
-          min-height: 800px;
-        }
-        
-        .polaroid-dark {
-          background: #1e1e1e;
-          padding: 10px 10px 35px 10px;
-          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
-          border: 1px solid #333;
-          display: inline-block;
-          width: 100%;
-          max-width: 280px;
-        }
-        
-        .photo-vignette {
-          position: relative;
-          overflow: hidden;
-          aspect-ratio: 1/1;
-          background: #2a2a2a;
-        }
-        
-        .photo-vignette::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
-          pointer-events: none;
-        }
-        
-        .photo-vignette img {
-          filter:  contrast(1.2) brightness(0.7);
-        }
-        
-        .album-page {
-          display: none;
-        }
-        
-        .album-page.active {
-          display: flex;
-          flex-direction: column;
-          gap: 4rem;
-        }
-        
-        .album-nav-btn {
-          background: transparent;
-          color: #666;
-          border: 1px solid #333;
-          padding: 4px 16px;
-          transition: all 0.3s;
-          font-family: 'Gaegu', cursive;
-        }
-        
-        .album-nav-btn:hover:not(:disabled) {
-          color: #fff;
-          border-color: #fff;
-        }
-        
-        .album-nav-btn:disabled {
-          opacity: 0.2;
-          cursor: not-allowed;
-        }
-        
-        .album-text {
-          font-family: 'Gaegu', cursive;
-          color: #e5e5e5;
-          line-height: 1.4;
-          font-size: 1.1rem;
-          max-width: 400px;
-        }
-        
-        .album-title {
-          font-weight: bold;
-          display: inline;
-        }
-        
-        .album-spine {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: rgba(255, 255, 255, 0.05);
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-          transform: translateX(-50%);
-          z-index: 1;
-        }
+          @import url('https://fonts.googleapis.com/css2?family=VT323&family=Permanent+Marker&family=Gaegu:wght@400;700&display=swap');
 
-        .stats-card {
-          background: rgba(30, 30, 30, 0.8);
-          border: 2px solid #444;
-          padding: 1.5rem;
-          border-radius: 8px;
-        }
+          body {
+            font-family: 'VT323', monospace;
+            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
+          }
 
-        .stat-item {
-          display: flex;
-          justify-content: space-between;
-          padding: 0.5rem 0;
-          border-bottom: 1px solid #333;
-        }
+          .handwritten {
+            font-family: 'Gaegu', cursive;
+            font-weight: 400;
+          }
 
-        .stat-item:last-child {
-          border-bottom: none;
-        }
+          .handwritten-bold {
+            font-family: 'Gaegu', cursive;
+            font-weight: 700;
+          }
 
-        .tech-badge {
-          display: inline-block;
-          padding: 4px 12px;
-          margin: 4px;
-          border: 2px solid currentColor;
-          border-radius: 4px;
-          font-family: 'VT323', monospace;
-          font-size: 1.1rem;
-        }
+          .marker {
+            font-family: 'Permanent Marker', cursive;
+          }
 
-        .loading-skeleton {
-          background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
-          background-size: 200% 100%;
-          animation: loading 1.5s ease-in-out infinite;
-        }
+          h1, h2, h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+          }
 
-        @keyframes loading {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-      `}</style>
+          .text-omori {
+            font-size: 1.5rem;
+            line-height: 1.2;
+          }
+
+          .sketch-border {
+            border: 2px solid currentColor;
+            border-radius: 2px;
+            box-shadow: 2px 2px 0 0 currentColor;
+          }
+
+          .project-card {
+            transition: all 0.2s ease;
+          }
+
+          .project-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 0 currentColor;
+            cursor: pointer;
+          }
+
+          .album-container-dark {
+            background-color: #0c0c0c;
+            border: 4px solid #1a1a1a;
+            position: relative;
+            padding: 3rem 1.5rem;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+            min-height: 800px;
+          }
+
+          .polaroid-dark {
+            background: #1e1e1e;
+            padding: 10px 10px 35px 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
+            border: 1px solid #333;
+            display: inline-block;
+            width: 100%;
+            max-width: 280px;
+          }
+
+          .photo-vignette {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            background: #2a2a2a;
+          }
+
+          .photo-vignette::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
+            pointer-events: none;
+          }
+
+          .photo-vignette img {
+            filter:  contrast(1.2) brightness(0.7);
+          }
+
+          .album-page {
+            display: none;
+          }
+
+          .album-page.active {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+          }
+
+          .album-nav-btn {
+            background: white;
+            color: black;
+            border: 2px solid white;
+            padding: 8px 20px;
+            transition: all 0.3s;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+            font-size: 1.25rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+          }
+
+          @keyframes pulse-glow {
+            0%, 100% {
+              box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+              opacity: 1;
+            }
+            50% {
+              box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+              opacity: 0.9;
+            }
+          }
+
+          .album-nav-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 1);
+          }
+
+          .album-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            animation: none;
+          }
+
+          .album-nav-btn-mobile {
+            background: white;
+            color: black;
+            border: 2px solid white;
+            padding: 8px 16px;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: pulse-glow 2s ease-in-out infinite;
+            border-radius: 4px;
+            min-width: 50px;
+          }
+
+          .album-nav-btn-mobile:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            animation: none;
+          }
+
+          .album-nav-btn-mobile:active:not(:disabled) {
+            transform: scale(0.95);
+          }
+
+          .album-text {
+            font-family: 'Gaegu', cursive;
+            color: #e5e5e5;
+            line-height: 1.4;
+            font-size: 1.1rem;
+            max-width: 400px;
+          }
+
+          .album-title {
+            font-weight: bold;
+            display: inline;
+          }
+
+          .album-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: translateX(-50%);
+            z-index: 1;
+          }
+
+          .stats-card {
+            background: rgba(30, 30, 30, 0.8);
+            border: 2px solid #444;
+            padding: 1.5rem;
+            border-radius: 8px;
+          }
+
+          .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333;
+          }
+
+          .stat-item:last-child {
+            border-bottom: none;
+          }
+
+          .tech-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            margin: 4px;
+            border: 2px solid currentColor;
+            border-radius: 4px;
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+          }
+
+          .loading-skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s ease-in-out infinite;
+          }
+
+          @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+
+          @media (max-width: 768px) {
+            .album-container-dark {
+              padding: 2rem 1rem;
+              min-height: auto;
+            }
+
+            .polaroid-dark {
+              max-width: 240px;
+            }
+
+            .album-text {
+              font-size: 1rem;
+              max-width: 100%;
+              padding: 0 1rem;
+            }
+
+            .album-page.active {
+              gap: 2rem;
+            }
+
+            .album-nav-btn {
+              padding: 6px 16px;
+              font-size: 1rem;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .polaroid-dark {
+              max-width: 200px;
+            }
+
+            .album-text {
+              font-size: 0.95rem;
+            }
+          }
+        `}</style>
 
         <div className="bg-white text-black overflow-x-hidden relative">
           {/* Imagen de fondo solo en la parte superior con fade */}
@@ -468,63 +546,64 @@ function GitHubProjects() {
       <section id="projects">
         <div className="flex items-center justify-between mb-12 border-b border-white pb-2">
           <h2 className="marker text-4xl inline-block">Memories (Projects)</h2>
+
           <a
-              href="https://github.com/maplehugs"
-              target="_blank"
-              className="handwritten text-lg text-gray-400 hover:text-white transition-colors"
+            href="https://github.com/maplehugs"
+            target="_blank"
+            className="handwritten text-lg text-gray-400 hover:text-white transition-colors"
           >
             View all on GitHub →
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {repos.map((repo) => (
-              <article
-                  key={repo.id}
-                  className="sketch-border p-6 space-y-4 project-card transition-all"
-                  onClick={() => window.open(repo.html_url, '_blank')}
-              >
-                <div className="flex items-start justify-between">
-                  <h3 className="text-2xl handwritten-bold flex-1">{repo.name.replace(/-/g, '_')}</h3>
-                  {repo.stargazers_count > 0 && (
-                      <span className="text-yellow-400 text-sm ml-2">⭐ {repo.stargazers_count}</span>
-                  )}
-                </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {repos.map((repo) => (
+        <article
+            key={repo.id}
+            className="sketch-border p-6 space-y-4 project-card transition-all"
+            onClick={() => window.open(repo.html_url, '_blank')}
+        >
+          <div className="flex items-start justify-between">
+            <h3 className="text-2xl handwritten-bold flex-1">{repo.name.replace(/-/g, '_')}</h3>
+            {repo.stargazers_count > 0 && (
+                <span className="text-yellow-400 text-sm ml-2">⭐ {repo.stargazers_count}</span>
+            )}
+          </div>
 
-                <p className="text-lg text-gray-400 handwritten min-h-[60px]">
-                  {repo.description || 'A mysterious project from the depths of GitHub...'}
-                </p>
+          <p className="text-lg text-gray-400 handwritten min-h-[60px]">
+            {repo.description || 'A mysterious project from the depths of GitHub...'}
+          </p>
 
-                <div className="flex flex-wrap gap-2 text-sm">
-                  {repo.language && (
-                      <span className="border border-white px-2 py-1">{repo.language}</span>
-                  )}
-                  {repo.topics.slice(0, 3).map(topic => (
-                      <span key={topic} className="border border-gray-500 text-gray-400 px-2 py-1">{topic}</span>
-                  ))}
-                </div>
+          <div className="flex flex-wrap gap-2 text-sm">
+            {repo.language && (
+                <span className="border border-white px-2 py-1">{repo.language}</span>
+            )}
+            {repo.topics.slice(0, 3).map(topic => (
+                <span key={topic} className="border border-gray-500 text-gray-400 px-2 py-1">{topic}</span>
+            ))}
+          </div>
 
-                <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between mt-4">
               <span className="handwritten text-sm text-gray-500">
                 Updated: {new Date(repo.updated_at).toLocaleDateString()}
               </span>
-                  <span className="text-xs uppercase tracking-tighter opacity-50">Click to Open</span>
-                </div>
-              </article>
-          ))}
-        </div>
+            <span className="text-xs uppercase tracking-tighter opacity-50">Click to Open</span>
+          </div>
+        </article>
+    ))}
+  </div>
 
-        <div className="text-center mt-12">
-          <a
-              href="https://github.com/maplehugs?tab=repositories"
-              target="_blank"
-              className="inline-block sketch-border px-8 py-3 handwritten-bold text-xl hover:bg-white hover:text-black transition-colors"
-          >
-            See More Projects on GitHub
-          </a>
-        </div>
-      </section>
-  );
+  <div className="text-center mt-12">
+    <a
+      href="https://github.com/maplehugs?tab=repositories"
+      target="_blank"
+      className="inline-block sketch-border px-8 py-3 handwritten-bold text-xl hover:bg-white hover:text-black transition-colors"
+    >
+      See More Projects on GitHub
+    </a>
+  </div>
+</section>
+);
 }
 
 // Componente separado para el álbum con interactividad
@@ -542,22 +621,47 @@ function MemoriesAlbum() {
 
   return (
       <section id="sketchbook">
-        <div className="flex items-center justify-between mb-12 border-b border-white pb-2">
-          <h2 className="marker text-4xl">Memories (Album)</h2>
-          <div className="flex gap-4">
+        <div className="mb-12 border-b border-white pb-2">
+          <div className="flex items-center justify-between mb-4 md:mb-0">
+            <h2 className="marker text-4xl">Memories (Album)</h2>
+            <div className="hidden md:flex gap-4">
+              <button
+                  className="album-nav-btn"
+                  id="prevPage"
+                  disabled={currentPage === 1}
+                  onClick={() => changePage(-1)}
+              >
+                ← PREV
+              </button>
+              <button
+                  className="album-nav-btn"
+                  id="nextPage"
+                  disabled={currentPage === totalPages}
+                  onClick={() => changePage(1)}
+              >
+                NEXT →
+              </button>
+            </div>
+          </div>
+
+          {/* Botones móviles - debajo del título */}
+          <div className="flex md:hidden gap-3 justify-center mt-4">
             <button
-                className="album-nav-btn text-xl"
+                className="album-nav-btn-mobile"
                 disabled={currentPage === 1}
                 onClick={() => changePage(-1)}
             >
-              ← PREV
+              ←
             </button>
+            <span className="text-white handwritten text-lg flex items-center">
+              {currentPage} / {totalPages}
+            </span>
             <button
-                className="album-nav-btn text-xl"
+                className="album-nav-btn-mobile"
                 disabled={currentPage === totalPages}
                 onClick={() => changePage(1)}
             >
-              NEXT →
+              →
             </button>
           </div>
         </div>

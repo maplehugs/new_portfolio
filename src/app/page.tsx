@@ -475,9 +475,9 @@ export default function Home() {
                 <p className="text-xl mb-4 handwritten">Waiting for something to happen?</p>
                 <div className="flex justify-center gap-8 text-2xl handwritten">
                   <a className="hover:text-gray-400 transition-colors" href="https://github.com/maplehugs" target="_blank">Github</a>
-                  <a className="hover:text-gray-400 transition-colors" href="https://linkedin.com/in/juan-guerrero-5maple" target="_blank">LinkedIn</a>
+                  <a className="hover:text-gray-400 transition-colors" href="https://www.linkedin.com/in/juan-jos%C3%A9-guerrero-ramirez-bba259254/" target="_blank">LinkedIn</a>
                   <a className="hover:text-gray-400 transition-colors" href="mailto:me@5maple.com">Mail</a>
-                  <a className="hover:text-gray-400 transition-colors" href="https://credly.com" target="_blank">Credly</a>
+                  <a className="hover:text-gray-400 transition-colors" href="https://www.credly.com/users/juan-jose-guerrero-ramirez" target="_blank">Credly</a>
                 </div>
                 <p className="mt-8 text-xs text-gray-600 uppercase tracking-widest handwritten">Everything is going to be okay.</p>
                 <p className="mt-2 text-xs text-gray-700 handwritten">Bogotá D.C., Colombia · +57 311 8331482</p>

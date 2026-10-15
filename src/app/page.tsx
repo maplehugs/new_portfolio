@@ -1,24 +1,68 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-// Tipos para los repos de GitHub
-interface GitHubRepo {
-  id: number;
-  name: string;
-  description: string | null;
-  html_url: string;
-  language: string | null;
-  topics: string[];
-  stargazers_count: number;
-  created_at: string;
-  updated_at: string;
-}
+const PROJECTS = [
+  { name: 'UmamusumeX', tags: ['Python', 'Reverse engineering', 'Linux/Proton'],
+    text: 'Private server for Umamusume: Pretty Derby (Global/Steam), rebuilt by reverse engineering the client: 357 endpoints, native race engine, gacha, events. Lead contributor: 170+ commits, ~30 server bugs fixed, Linux/Proton setup automated.' },
+  { name: 'Umamusume for Archipelago', url: 'https://github.com/maplehugs/umamusume_apworld', tags: ['Python', 'Community'],
+    text: 'Plugs the game into Archipelago, a multiworld randomizer: every race you win sends items to other players in other games. 12+ releases, with guides written for players who never touched code.' },
+  { name: 'SkinShare (Garry\'s Mod)', url: 'https://github.com/maplehugs/SkinShare_Gmod', tags: ['Lua', 'Community'],
+    text: 'Pick a skin from your Workshop addons and everyone on the server downloads and mounts it mid-game, no restart. Only the host installs it. Works in any gamemode.' },
+  { name: 'IMEVI Intranet', tags: ['Spring Boot', 'PostgreSQL', 'CI/CD'],
+    text: 'Company intranet in production: absences, sick leave, safety KPIs, benefits, IT assets, 2FA. Every push is tested and deployed by itself, and rolls back if the new version won\'t start.' },
+  { name: 'SCENE-BOT', tags: ['Rust', 'Discord', 'Community'],
+    text: 'All-in-one Discord bot you can drive by talking to it. Ported the whole thing from Node.js to Rust and added fully local voice: Piper TTS, RVC and whisper.cpp.' },
+  { name: 'Home lab', tags: ['Linux', 'Docker', 'Networking'],
+    text: 'Mini PC running Docker, PostgreSQL, a music server, game servers for friends and a local LLM. Tailscale, FRP reverse proxy on a cloud VPS, own DNS with AdGuard, Wake-on-LAN across NAT.' },
+  { name: 'Stockout forecasting', url: 'https://github.com/maplehugs/neural-network-austral', tags: ['Python', 'TensorFlow'],
+    text: 'Excel inventory to MySQL, GRU models benchmarked against Croston/SBA, Monte Carlo simulation. Tells you what runs out before it does.' },
+  { name: 'AI transcription', url: 'https://github.com/maplehugs/ai_transcription', tags: ['Python', 'Flask', 'Whisper'],
+    text: 'Small web app that transcribes audio and video and tells speakers apart (Whisper + NeMo), with a job queue and real progress tracking.' },
+];
+
+const EXPERIENCE = [
+  { role: 'Software Engineering Apprentice', where: 'IMEVI / Aug 2026 - present', items: [
+    'Deployed and run the company intranet in production (Spring Boot, PostgreSQL)',
+    'Built CI/CD with GitHub Actions: tested, auto-deployed, auto-rollback if it fails to start',
+    'First production on a Docker mini PC, then led the migration to the company server',
+    'Migrated the warranty system from Strapi to Express + PostgreSQL, 8,000+ attachments included',
+  ] },
+  { role: 'Development & IT Intern', where: 'Australlens / Sep 2024 - Feb 2025 · Feb - Mar 2026', items: [
+    'Designed and deployed the centralized IT ticket system for every branch, end to end',
+    'Physically set up the on-premise server (Ubuntu Server), later migrated to Windows Server 2019',
+    'Came back in 2026 to migrate it to Spring Boot: Spring Security, email verification, WebSocket, HTTPS',
+  ] },
+  { role: 'AI Training & Evaluation', where: 'Outlier AI / Jun 2024 - Nov 2024', items: [
+    'Reviewed, fixed and validated AI-generated code in Python, TypeScript and Java',
+    'Designed and tested prompts to evaluate model behavior and correctness',
+  ] },
+];
+
+const STACK = [
+  { title: 'systems', note: 'where i actually live', color: 'blue', items: ['Linux', 'Windows Server', 'Docker', 'nginx', 'cPanel', 'systemd'] },
+  { title: 'networking', note: "it's always DNS", color: 'green', items: ['DNS', 'Reverse proxy', 'Tailscale', 'OpenVPN', 'TLS', 'Wake-on-LAN'] },
+  { title: 'cloud & hosting', note: 'may or may not have debts with some of these', color: 'purple', items: ['Google Cloud', 'Oracle Cloud', 'Cloudflare'] },
+  { title: 'databases', note: 'i used to store info here, keyword "used to"', color: 'cyan', items: ['PostgreSQL', 'MySQL', 'MariaDB', 'SQLite'] },
+  { title: 'languages', note: 'the ones i mass produce bugs in', color: 'red', items: ['Java', 'Python', 'JavaScript', 'Bash', 'Rust', 'Lua'] },
+  { title: 'automation', note: 'hey you seem familiar, do i know you?', color: 'orange', items: ['GitHub Actions', 'Git', 'Spring Boot'] },
+  { title: 'reverse engineering', note: 'reading code nobody wanted me to read', color: 'pink', items: ['Ghidra', 'Proton/Wine'] },
+];
+// full class names so Tailwind picks them up
+const BADGE: Record<string, string> = {
+  blue: 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/40', green: 'bg-green-500/20 text-green-300 hover:bg-green-500/40',
+  purple: 'bg-purple-500/20 text-purple-300 hover:bg-purple-500/40', cyan: 'bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/40',
+  red: 'bg-red-500/20 text-red-300 hover:bg-red-500/40', orange: 'bg-orange-500/20 text-orange-300 hover:bg-orange-500/40',
+  pink: 'bg-pink-500/20 text-pink-300 hover:bg-pink-500/40',
+};
+const TITLE: Record<string, string> = {
+  blue: 'text-blue-400', green: 'text-green-400', purple: 'text-purple-400', cyan: 'text-cyan-400',
+  red: 'text-red-400', orange: 'text-orange-400', pink: 'text-pink-400',
+};
 
 export default function Home() {
   return (
       <>
-        <title>almost white space</title>
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=VT323&family=Permanent+Marker&family=Gaegu:wght@400;700&display=swap');
 
@@ -205,24 +249,6 @@ export default function Home() {
             z-index: 1;
           }
 
-          .stats-card {
-            background: rgba(30, 30, 30, 0.8);
-            border: 2px solid #444;
-            padding: 1.5rem;
-            border-radius: 8px;
-          }
-
-          .stat-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #333;
-          }
-
-          .stat-item:last-child {
-            border-bottom: none;
-          }
-
           .tech-badge {
             display: inline-block;
             padding: 4px 12px;
@@ -231,17 +257,6 @@ export default function Home() {
             border-radius: 4px;
             font-family: 'VT323', monospace;
             font-size: 1.1rem;
-          }
-
-          .loading-skeleton {
-            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s ease-in-out infinite;
-          }
-
-          @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
           }
 
           @media (max-width: 768px) {
@@ -295,182 +310,89 @@ export default function Home() {
               }}
           />
 
-          {/* White Space Section */}
           <section className="min-h-screen flex flex-row items-center justify-center p-8 relative z-10" id="white-space">
             <div className="text-center">
-              {/* Greeting */}
               <h1 className="marker text-6xl md:text-8xl mb-4 font-extrabold">Welcome to my space.</h1>
-              <p className="handwritten text-2xl  italic mb-2">I'm Juan (maple)</p>
-              <p className="text-omori ">Software Engineer · 7th Semester</p>
+              <p className="handwritten text-2xl italic mb-2">I'm Juan (maple)</p>
+              <p className="text-omori">Software Engineering · Final semester · Linux & infrastructure</p>
               <p className="handwritten text-lg mt-4">I have been living here for as long as i can remember.</p>
 
-              {/* Navigation */}
+              <div className="mt-8 flex justify-center gap-4">
+                <a className="sketch-border px-6 py-2 handwritten-bold text-xl bg-white hover:bg-black hover:text-white transition-colors" href="/cv/CV_Juan_Guerrero_EN.pdf" target="_blank">CV (EN)</a>
+                <a className="sketch-border px-6 py-2 handwritten-bold text-xl bg-white hover:bg-black hover:text-white transition-colors" href="/cv/CV_Juan_Guerrero_ES.pdf" target="_blank">CV (ES)</a>
+              </div>
+
               <div className="mt-12 animate-bounce">
                 <a className="text-2xl hover:underline handwritten" href="#black-space">↓ Maybe check what's in my mind</a>
               </div>
             </div>
           </section>
 
-          {/* Transition Gradient */}
           <div className="h-64 bg-gradient-to-b from-white to-black relative z-10"></div>
 
-          {/* Black Space Section */}
           <main className="min-h-screen bg-black text-white p-6 md:p-12 black-space" id="black-space">
             <div className="max-w-6xl mx-auto space-y-24">
 
-              {/* Projects Section - GitHub Dynamic */}
-              <GitHubProjects />
+              <section id="projects">
+                <div className="flex items-center justify-between mb-12 border-b border-white pb-2">
+                  <h2 className="marker text-4xl inline-block">Memories (Projects)</h2>
+                  <a href="https://github.com/maplehugs" target="_blank" className="handwritten text-lg text-gray-400 hover:text-white transition-colors">View all on GitHub →</a>
+                </div>
+                <p className="handwritten text-xl text-gray-400 mb-8 -mt-6">Most of these i made for friends and communities, not because someone asked.</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {PROJECTS.map(p => {
+                    const inner = (
+                        <>
+                          <h3 className="text-2xl handwritten-bold">{p.name}</h3>
+                          <p className="text-lg text-gray-400 handwritten">{p.text}</p>
+                          <div className="flex flex-wrap gap-2 text-sm">
+                            {p.tags.map(t => <span key={t} className="border border-gray-500 text-gray-300 px-2 py-1">{t}</span>)}
+                          </div>
+                          <span className="block text-xs uppercase tracking-tighter opacity-50">{p.url ? 'Click to open' : 'Private repo'}</span>
+                        </>
+                    );
+                    return p.url
+                        ? <a key={p.name} href={p.url} target="_blank" className="sketch-border p-6 space-y-4 project-card block">{inner}</a>
+                        : <article key={p.name} className="sketch-border p-6 space-y-4">{inner}</article>;
+                  })}
+                </div>
+              </section>
 
-              {/* Experience Section */}
               <section id="experience">
                 <h2 className="marker text-4xl mb-12 border-b border-white pb-2 inline-block">Experience</h2>
                 <div className="space-y-12">
-
-                  {/* Outlier AI */}
-                  <div className="relative pl-8 border-l border-white/30 space-y-2">
-                    <div className="absolute -left-1.5 top-2 w-3 h-3 bg-white sketch-border"></div>
-                    <h3 className="text-2xl handwritten-bold">AI Training & Evaluation</h3>
-                    <p className="text-xl text-gray-300 handwritten">Outlier AI / June 2025 - November 2025</p>
-                    <ul className="list-disc list-inside text-lg text-gray-400 mt-2 space-y-1 handwritten">
-                      <li>Built complete solutions in Python, TypeScript, and Java following strict project guidelines</li>
-                      <li>Reviewed and corrected AI-generated code, identifying runtime errors and logical flaws</li>
-                      <li>Designed and tested prompts to evaluate AI behavior, correctness, and robustness</li>
-                      <li>Ensured all deliverables met quality, correctness, and performance requirements</li>
-                    </ul>
-                  </div>
-
-                  {/* Australlens Internship */}
-                  <div className="relative pl-8 border-l border-white/30 space-y-2">
-                    <div className="absolute -left-1.5 top-2 w-3 h-3 bg-white sketch-border"></div>
-                    <h3 className="text-2xl handwritten-bold">Web & App Developer Intern</h3>
-                    <p className="text-xl text-gray-300 handwritten">Australlens / September 2024 - February 2025</p>
-                    <ul className="list-disc list-inside text-lg text-gray-400 mt-2 space-y-1 handwritten">
-                      <li>Designed, developed, and deployed a centralized ticket management system end-to-end</li>
-                      <li>Built backend with Java 21 and Spring Boot 3.4.X, frontend with JavaScript and Tailwind CSS</li>
-                      <li>Implemented authentication, role-based permissions, and file upload support</li>
-                      <li>Physically set up and configured on-premise server (Ubuntu Server 24.04 → Windows Server 2019)</li>
-                      <li>Managed database administration, deployment, and production maintenance</li>
-                    </ul>
-                  </div>
+                  {EXPERIENCE.map(e => (
+                      <div key={e.role} className="relative pl-8 border-l border-white/30 space-y-2">
+                        <div className="absolute -left-1.5 top-2 w-3 h-3 bg-white sketch-border"></div>
+                        <h3 className="text-2xl handwritten-bold">{e.role}</h3>
+                        <p className="text-xl text-gray-300 handwritten">{e.where}</p>
+                        <ul className="list-disc list-inside text-lg text-gray-400 mt-2 space-y-1 handwritten">
+                          {e.items.map(i => <li key={i}>{i}</li>)}
+                        </ul>
+                      </div>
+                  ))}
                 </div>
               </section>
 
-              {/* Tech Stack Section */}
               <section id="tech-stack">
                 <h2 className="marker text-4xl mb-12 border-b border-white pb-2 inline-block">tech stack</h2>
-
                 <div className="space-y-12">
-                  {/* Languages - Izquierda texto, Derecha badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <h3 className="handwritten-bold text-2xl text-cyan-400">languages</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">the ones i mass produce bugs in</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {['C#', 'Java', 'JavaScript', 'Python', 'Bash'].map(lang => (
-                          <span key={lang} className="tech-badge bg-blue-500/20 text-blue-300 hover:bg-blue-500/40 transition-colors cursor-default">
-            {lang}
-          </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Frameworks - Derecha texto, Izquierda badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div className="flex flex-wrap gap-2 order-2 md:order-1">
-                      {['Spring', 'Next.js', 'Apache Tomcat', 'Apache'].map(fw => (
-                          <span key={fw} className="tech-badge bg-green-500/20 text-green-300 hover:bg-green-500/40 transition-colors cursor-default">
-            {fw}
-          </span>
-                      ))}
-                    </div>
-                    <div className="order-1 md:order-2 md:text-right">
-                      <h3 className="handwritten-bold text-2xl text-green-400">frameworks & tools</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">i swear i'll add more later</p>
-                    </div>
-                  </div>
-
-                  {/* Cloud - Izquierda texto, Derecha badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <h3 className="handwritten-bold text-2xl text-purple-400">cloud & hosting</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">may or may not have debts with some of these</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {['Google Cloud', 'Oracle', 'Heroku', 'Cloudflare'].map(cloud => (
-                          <span key={cloud} className="tech-badge bg-purple-500/20 text-purple-300 hover:bg-purple-500/40 transition-colors cursor-default">
-            {cloud}
-          </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Databases - Derecha texto, Izquierda badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div className="flex flex-wrap gap-2 order-2 md:order-1">
-                      {['MariaDB', 'MySQL', 'SQLite'].map(db => (
-                          <span key={db} className="tech-badge bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/40 transition-colors cursor-default">
-            {db}
-          </span>
-                      ))}
-                    </div>
-                    <div className="order-1 md:order-2 md:text-right">
-                      <h3 className="handwritten-bold text-2xl text-cyan-400">databases</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">i used to store info here, keyword "used to"</p>
-                    </div>
-                  </div>
-
-                  {/* ML/AI - Izquierda texto, Derecha badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <h3 className="handwritten-bold text-2xl text-red-400">ml / ai</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">they will control us one day</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {['TensorFlow', 'PyTorch', 'Keras'].map(ml => (
-                          <span key={ml} className="tech-badge bg-red-500/20 text-red-300 hover:bg-red-500/40 transition-colors cursor-default">
-            {ml}
-          </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Creative - Derecha texto, Izquierda badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div className="flex flex-wrap gap-2 order-2 md:order-1">
-                      {['Krita', 'Clip Studio Paint', 'Figma', 'Photoshop'].map(creative => (
-                          <span key={creative} className="tech-badge bg-pink-500/20 text-pink-300 hover:bg-pink-500/40 transition-colors cursor-default">
-            {creative}
-          </span>
-                      ))}
-                    </div>
-                    <div className="order-1 md:order-2 md:text-right">
-                      <h3 className="handwritten-bold text-2xl text-pink-400">creative</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">i have made awful drawings here</p>
-                    </div>
-                  </div>
-
-                  {/* Version Control - Izquierda texto, Derecha badges */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <h3 className="handwritten-bold text-2xl text-orange-400">version control</h3>
-                      <p className="handwritten text-lg text-gray-400 mt-2">hey you seem familiar, do i know you?</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {['Git', 'GitHub'].map(vc => (
-                          <span key={vc} className="tech-badge bg-orange-500/20 text-orange-300 hover:bg-orange-500/40 transition-colors cursor-default">
-            {vc}
-          </span>
-                      ))}
-                    </div>
-                  </div>
+                  {STACK.map((g, i) => (
+                      <div key={g.title} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div className={i % 2 ? 'md:order-2 md:text-right' : ''}>
+                          <h3 className={`handwritten-bold text-2xl ${TITLE[g.color]}`}>{g.title}</h3>
+                          <p className="handwritten text-lg text-gray-400 mt-2">{g.note}</p>
+                        </div>
+                        <div className={`flex flex-wrap gap-2 ${i % 2 ? 'md:order-1' : ''}`}>
+                          {g.items.map(t => <span key={t} className={`tech-badge transition-colors cursor-default ${BADGE[g.color]}`}>{t}</span>)}
+                        </div>
+                      </div>
+                  ))}
                 </div>
               </section>
 
-              {/* Memories Album Section */}
               <MemoriesAlbum />
 
-              {/* Footer */}
               <footer className="mt-32 text-center pb-12 border-t border-gray-800 pt-8">
                 <p className="text-xl mb-4 handwritten">Waiting for something to happen?</p>
                 <div className="flex justify-center gap-8 text-2xl handwritten">
@@ -480,130 +402,13 @@ export default function Home() {
                   <a className="hover:text-gray-400 transition-colors" href="https://www.credly.com/users/juan-jose-guerrero-ramirez" target="_blank">Credly</a>
                 </div>
                 <p className="mt-8 text-xs text-gray-600 uppercase tracking-widest handwritten">Everything is going to be okay.</p>
-                <p className="mt-2 text-xs text-gray-700 handwritten">Bogotá D.C., Colombia · +57 311 8331482</p>
+                <p className="mt-2 text-xs text-gray-700 handwritten">Bogotá D.C., Colombia</p>
               </footer>
             </div>
           </main>
         </div>
       </>
   );
-}
-
-// Componente para cargar proyectos dinámicamente de GitHub
-function GitHubProjects() {
-  const [repos, setRepos] = useState<GitHubRepo[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    async function fetchRepos() {
-      try {
-        const response = await fetch('https://api.github.com/users/maplehugs/repos?sort=updated&per_page=6');
-        if (!response.ok) throw new Error('Failed to fetch');
-        const data = await response.json();
-
-        // Filtrar repos archivados y forks si quieres
-        const filteredRepos = data.filter((repo: GitHubRepo) => !repo.name.includes('maplehugs'));
-
-        setRepos(filteredRepos.slice(0, 6)); // Mostrar máximo 6 repos
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching GitHub repos:', err);
-        setError(true);
-        setLoading(false);
-      }
-    }
-
-    fetchRepos();
-  }, []);
-
-  if (loading) {
-    return (
-        <section id="projects">
-          <h2 className="marker text-4xl mb-12 border-b border-white pb-2 inline-block">Memories (Projects)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[1, 2, 3, 4].map(i => (
-                <div key={i} className="sketch-border p-6 space-y-4 loading-skeleton h-64"></div>
-            ))}
-          </div>
-        </section>
-    );
-  }
-
-  if (error || repos.length === 0) {
-    return (
-        <section id="projects">
-          <h2 className="marker text-4xl mb-12 border-b border-white pb-2 inline-block">Memories (Projects)</h2>
-          <div className="text-center text-gray-400 handwritten text-xl py-12">
-            <p>Unable to load projects from GitHub...</p>
-            <p className="mt-4">But you can check them out at <a href="https://github.com/maplehugs" target="_blank" className="underline">github.com/maplehugs</a></p>
-          </div>
-        </section>
-    );
-  }
-
-  return (
-      <section id="projects">
-        <div className="flex items-center justify-between mb-12 border-b border-white pb-2">
-          <h2 className="marker text-4xl inline-block">Memories (Projects)</h2>
-
-          <a
-            href="https://github.com/maplehugs"
-            target="_blank"
-            className="handwritten text-lg text-gray-400 hover:text-white transition-colors"
-          >
-            View all on GitHub →
-          </a>
-        </div>
-
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-    {repos.map((repo) => (
-        <article
-            key={repo.id}
-            className="sketch-border p-6 space-y-4 project-card transition-all"
-            onClick={() => window.open(repo.html_url, '_blank')}
-        >
-          <div className="flex items-start justify-between">
-            <h3 className="text-2xl handwritten-bold flex-1">{repo.name.replace(/-/g, '_')}</h3>
-            {repo.stargazers_count > 0 && (
-                <span className="text-yellow-400 text-sm ml-2">⭐ {repo.stargazers_count}</span>
-            )}
-          </div>
-
-          <p className="text-lg text-gray-400 handwritten min-h-[60px]">
-            {repo.description || 'A mysterious project from the depths of GitHub...'}
-          </p>
-
-          <div className="flex flex-wrap gap-2 text-sm">
-            {repo.language && (
-                <span className="border border-white px-2 py-1">{repo.language}</span>
-            )}
-            {repo.topics.slice(0, 3).map(topic => (
-                <span key={topic} className="border border-gray-500 text-gray-400 px-2 py-1">{topic}</span>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-between mt-4">
-              <span className="handwritten text-sm text-gray-500">
-                Updated: {new Date(repo.updated_at).toLocaleDateString()}
-              </span>
-            <span className="text-xs uppercase tracking-tighter opacity-50">Click to Open</span>
-          </div>
-        </article>
-    ))}
-  </div>
-
-  <div className="text-center mt-12">
-    <a
-      href="https://github.com/maplehugs?tab=repositories"
-      target="_blank"
-      className="inline-block sketch-border px-8 py-3 handwritten-bold text-xl hover:bg-white hover:text-black transition-colors"
-    >
-      See More Projects on GitHub
-    </a>
-  </div>
-</section>
-);
 }
 
 // Componente separado para el álbum con interactividad
@@ -674,9 +479,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark -rotate-1">
                 <div className="photo-vignette">
-                  <div className="photo-vignette">
-                    <img src="/server.webp" alt="First Server" className="w-full h-full object-cover" />
-                  </div>
+                  <img src="/server.webp" alt="First server" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text">
@@ -687,7 +490,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark rotate-2">
                 <div className="photo-vignette">
-                  <img src="/3am.webp" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/3am.webp" alt="Late night debugging" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text md:text-right">
@@ -701,7 +504,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark rotate-1">
                 <div className="photo-vignette">
-                  <img src="/ticket.webp" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/ticket.webp" alt="First day at Australlens" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text">
@@ -712,7 +515,7 @@ function MemoriesAlbum() {
             <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-8 md:gap-16 relative z-10 px-4">
               <div className="polaroid-dark -rotate-2">
                 <div className="photo-vignette">
-                  <img src="/ice.webp" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/ice.webp" alt="Server migration" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text md:text-right">
@@ -726,11 +529,11 @@ function MemoriesAlbum() {
             <div className="flex flex-col items-center justify-center text-center relative z-10 px-4">
               <div className="polaroid-dark rotate-0 mb-8">
                 <div className="photo-vignette bg-gradient-to-br from-purple-900 to-black flex items-center justify-center">
-                  <img src="/oña.webp" alt="First Server" className="w-full h-full object-cover" />
+                  <img src="/oña.webp" alt="What's next" className="w-full h-full object-cover" />
                 </div>
               </div>
               <div className="album-text">
-                <p><span className="album-title">Photo of What's Next</span> - The journey isn't over. 7th semester completed, one more to go. More projects to build, more bugs to fix, more servers to deploy. The grind continues. And you wouldn't have it any other way.</p>
+                <p><span className="album-title">Photo of What's Next</span> - The journey isn't over. Last semester, and the servers you deploy now are real ones at IMEVI. Others play on servers you rebuilt from scratch. More bugs to fix, more servers to deploy. The grind continues. And you wouldn't have it any other way.</p>
               </div>
             </div>
           </div>
